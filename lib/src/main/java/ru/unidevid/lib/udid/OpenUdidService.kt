@@ -6,15 +6,6 @@ import android.os.Binder
 import android.os.IBinder
 import android.os.Parcel
 
-/*
- * You have to add this in your manifest
-
-<service android:name="org.OpenUDID.OpenUDID_service">
-	<intent-filter>
-		<action android:name="org.OpenUDID.GETUDID" />
-	</intent-filter>
-</service>
-*/
 internal class OpenUdidService : Service() {
 
     override fun onBind(arg0: Intent): IBinder? {
