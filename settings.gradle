@@ -1,0 +1,3 @@
+rootProject.name = "UniDevIdApp"
+include ':app'
+include ':lib'

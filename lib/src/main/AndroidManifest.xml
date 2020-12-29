@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="ru.unidevid.lib">
+
+    <application>
+        <service
+            android:name=".udid.OpenUdidService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="org.OpenUDID.GETUDID" />
+            </intent-filter>
+        </service>
+    </application>
+</manifest>
