@@ -7,9 +7,7 @@ Android Iniversal Device ID Library
 
 ### Installation
 
-- First add this repo to your project:```maven {
-		url  "https://dl.bintray.com/beeline09/UniDevIdLib"
-	}```
+- First add this repo to your project:```maven { url "https://dl.bintray.com/beeline09/UniDevIdLib" }```
 - Second add this dependency to your module build.gradle: ```implementation 'ru.unidevid.lib:UniDevIdLib:1.0.0'```
 
 ### Usage
