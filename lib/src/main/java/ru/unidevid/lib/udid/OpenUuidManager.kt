@@ -137,9 +137,9 @@ class OpenUuidManager private constructor(context: Context) : ServiceConnection 
          * The Method to call to get OpenUDID
          * @return the OpenUDID
          */
-        fun getOpenUDID(): String? {
+        fun getOpenUDID(): String {
             if (!isInitialized) Log.e("OpenUDID", "Initialisation isn't done")
-            return OpenUDID
+            return OpenUDID?:UUID.randomUUID().toString()
         }
 
         /**

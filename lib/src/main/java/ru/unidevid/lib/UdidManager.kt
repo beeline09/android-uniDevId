@@ -23,7 +23,6 @@ class UdidManager private constructor(context: Context) {
                     instance = UdidManager(context = context)
                 }
             }
-
             return instance
         }
 
@@ -36,17 +35,17 @@ class UdidManager private constructor(context: Context) {
 
             return if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR2) {
                 val oldUUID = UUID.nameUUIDFromBytes(
-                    (OpenUuidManager.getOpenUDID() ?: UUID.randomUUID().toString()).toByteArray()
+                    OpenUuidManager.getOpenUDID().toByteArray()
                 ).toString()
-                Log.e("oldUUID", oldUUID)
+//                Log.e("oldUUID", oldUUID)
                 oldUUID
             } else {
                 val newUUID = UUID.nameUUIDFromBytes(
                     (Base64.encodeToString(
-                        DeviceIDUtil.getUniqueID()?.toByteArray(), 0
+                        (DeviceIDUtil.getUniqueID() ?: OpenUuidManager.getOpenUDID()).toByteArray(), 0
                     )).toByteArray()
                 ).toString()
-                Log.e("newUUID", newUUID)
+//                Log.e("newUUID", newUUID)
                 newUUID
             }
         }

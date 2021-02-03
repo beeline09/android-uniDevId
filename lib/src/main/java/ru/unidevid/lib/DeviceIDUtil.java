@@ -14,6 +14,8 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.UUID;
 
+import ru.unidevid.lib.udid.OpenUuidManager;
+
 @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
 class DeviceIDUtil {
     private static final String TAG = "DeviceIDUtil";
@@ -33,7 +35,7 @@ class DeviceIDUtil {
 
             return bytesToHex(md.digest());
         } catch (UnsupportedSchemeException | NoSuchAlgorithmException e) {
-            return null;
+            return OpenUuidManager.Companion.getOpenUDID();
         } finally {
             if (isAndroidTargetPieAndHigher()) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P && wvDrm != null) {
