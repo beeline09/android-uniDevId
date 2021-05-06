@@ -56,7 +56,7 @@ class DeviceIDUtil {
     @NonNull
     public static String bytesToHex(@NonNull byte[] bytes) {
         char[] hexChars = new char[bytes.length * 2];
-        Log.e("HexChars", new String(hexChars));
+//        Log.e("HexChars", new String(hexChars));
         for (int j = 0; j < bytes.length; j++) {
             int v = bytes[j] & 0xFF;
             hexChars[j * 2] = HEX_ARRAY[v >>> 4];

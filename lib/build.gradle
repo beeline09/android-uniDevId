@@ -1,76 +1,9 @@
 plugins {
     id 'com.android.library'
     id 'kotlin-android'
-//    id 'com.jfrog.bintray'
-    id 'maven-publish'
-}
-apply plugin: 'kotlin-android'
-
-def githubProperties = new Properties()
-githubProperties.load(new FileInputStream(rootProject.file("github.properties"))) //Set env variable GPR_USER & GPR_API_KEY if not adding a properties file
-
-def getVersionName = { ->
-    return libVersion // Replace with version Name
+    id 'com.vanniktech.maven.publish'
 }
 
-def getArtificatId = { ->
-    return "lib" // Replace with library name ID
-}
-
-publishing {
-    publications {
-        bar(MavenPublication) {
-            groupId 'ru.unidevid' // Replace with group ID
-            artifactId getArtificatId()
-            version getVersionName()
-            artifact("$buildDir/outputs/aar/${getArtificatId()}-${getVersionName()}.aar")
-        }
-    }
-
-    repositories {
-        maven {
-            name = "GitHubPackages"
-            /** Configure path of your package repository on Github
-             ** Replace GITHUB_USERID with your/organisation Github userID
-             ** and REPOSITORY with the repository name on GitHub
-             */
-            url = uri("https://maven.pkg.github.com/beeline09/android-uniDevId")
-            credentials {
-                /** Create github.properties in root project folder file with
-                 ** gpr.usr=GITHUB_USER_ID & gpr.key=PERSONAL_ACCESS_TOKEN
-                 ** Set env variable GPR_USER & GPR_API_KEY if not adding a properties file**/
-
-                username = githubProperties['gpr.usr'] ?: System.getenv("GPR_USER")
-                password = githubProperties['gpr.key'] ?: System.getenv("GPR_API_KEY")
-            }
-        }
-    }
-}
-
-
-/*ext {
-    bintrayRepo = "UniDevIdLib"
-    bintrayName = "ru.unidevid.lib"
-    libraryName = "UniDevIdLib"
-
-    publishedGroupId = "ru.unidevid.lib"
-    artifact = "devIdLib"
-    libraryVersion = "${libVersion}"
-
-    libraryDescription = "Android Iniversal Device ID Library"
-    siteUrl = "https://github.com/beeline09/android-uniDevId"
-    gitUrl = "https://github.com/beeline09/android-uniDevId.git"
-
-    developerId = "beeline09"
-    developerName = "Rasul Ismailov"
-    developerEmail = "beeline09@gmail.com"
-
-    licenseName = "The Apache Software License, Version 2.0"
-    licenseUrl = "https://www.apache.org/licenses/LICENSE-2.0"
-    allLicenses = ["Apache-2.0"]
-}*/
-
-//apply from: 'publish.gradle'
 
 android {
     compileSdkVersion 30
@@ -94,20 +27,6 @@ android {
         }
     }
 
-/*    libraryVariants.all { variant ->
-        variant.outputs.all { output ->
-            if (outputFile != null && outputFileName.endsWith('.aar')) {
-                outputFileName = "${archivesBaseName}-${version}.aar"
-            }
-        }
-    }*/
-
-    libraryVariants.all { variant ->
-        variant.outputs.all {
-            outputFileName = "${getArtificatId()}-${getVersionName()}.aar"
-        }
-    }
-
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -125,55 +44,9 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'org.jetbrains:annotations:16.0.1'
     implementation "androidx.core:core-ktx:1.3.2"
-    //implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
 
-/*def libraryGroupId = 'ru.unidevid.lib'
-def libraryArtifactId = 'UniDevIdLib'
-afterEvaluate {
-    publishing {
-        publications {
-            // Creates a Maven publication called "release".
-            release(MavenPublication) {
-                from components.release
-                groupId = libraryGroupId
-                artifactId = libraryArtifactId
-                version = libVersion
-            }
-        }
-    }
-}*/
+
 repositories {
     mavenCentral()
 }
-
-/*bintray {
-    Properties properties = new Properties()
-    properties.load(project.rootProject.file('local.properties').newDataInputStream())
-
-
-    user = properties.getProperty('bintray.user')
-    key = properties.getProperty('bintray.apikey')
-    publications = ['release']
-    publish = true
-    override = true
-    pkg {
-        repo = 'UniDevIdLib'
-        name = 'ru.unidevid.lib'
-        desc = 'Android Iniversal Device ID Library'
-        licenses = ['Apache-2.0']
-        vcsUrl = 'https://github.com/beeline09/android-uniDevId.git'
-        publicDownloadNumbers = true
-        version {
-            name = libraryVersion
-            released = new Date()
-        }
-    }
-}*/
-
-//apply from: "https://gist.githubusercontent.com/rubensousa/44c51b845678c7a0fefbbf238d16ed11/raw/3adb225f3ae4bffcda13c453b85e600964c3b0e7/publish_github.gradle"
-// Use this if the script is stored locally in the /gradle folder
-//apply from: "$rootProject.projectDir/gradle/publish_github.gradle"
-
-// Or use this if the script is stored remotely somewhere:
-//apply from: "https://gist.githubusercontent.com/beeline09/d4c284e3a79fe15df6039ab625ac388b/raw/840c7facfef53361fef672946f80d950159c7755/publish_github.gradle"
