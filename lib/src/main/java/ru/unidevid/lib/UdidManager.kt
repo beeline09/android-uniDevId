@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Build
 import android.util.Base64
-import android.util.Log
 import ru.unidevid.lib.udid.OpenUuidManager
 import java.util.*
 
@@ -42,7 +41,7 @@ class UdidManager private constructor(context: Context) {
             } else {
                 val newUUID = UUID.nameUUIDFromBytes(
                     (Base64.encodeToString(
-                        (DeviceIDUtil.getUniqueID() ?: OpenUuidManager.getOpenUDID()).toByteArray(), 0
+                        DeviceIDUtil.getUniqueID().toByteArray(), 0
                     )).toByteArray()
                 ).toString()
 //                Log.e("newUUID", newUUID)

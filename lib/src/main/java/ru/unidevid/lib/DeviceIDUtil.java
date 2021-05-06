@@ -5,10 +5,8 @@ import android.media.UnsupportedSchemeException;
 import android.os.Build;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
-
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -22,7 +20,7 @@ class DeviceIDUtil {
 
     private static final char[] HEX_ARRAY = "0123456789ABCDEF".toCharArray();
 
-    @Nullable
+    @NonNull
     public static String getUniqueID() {
         UUID widevine_uuid = new UUID(-0x121074568629b532L, -0x5c37d8232ae2de13L);
         MediaDrm wvDrm = null;
@@ -55,8 +53,8 @@ class DeviceIDUtil {
         return retval;
     }
 
-    @NotNull
-    public static String bytesToHex(@NotNull byte[] bytes) {
+    @NonNull
+    public static String bytesToHex(@NonNull byte[] bytes) {
         char[] hexChars = new char[bytes.length * 2];
         Log.e("HexChars", new String(hexChars));
         for (int j = 0; j < bytes.length; j++) {

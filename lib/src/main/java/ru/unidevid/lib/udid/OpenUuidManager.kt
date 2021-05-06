@@ -18,8 +18,7 @@ class OpenUuidManager private constructor(context: Context) : ServiceConnection 
             : MutableList<ResolveInfo>? = null
     private val mReceivedOpenUDIDs //Map of OpenUDIDs found so far
             : MutableMap<String?, Int?>
-    private val mPreferences //Preferences to store the OpenUDID
-            : SharedPreferences
+    private val mPreferences: SharedPreferences //Preferences to store the OpenUDID
     private val mRandom: Random
     override fun onServiceConnected(className: ComponentName, service: IBinder) {
         //Get the OpenUDID from the remote service
@@ -33,13 +32,13 @@ class OpenUuidManager private constructor(context: Context) : ServiceConnection 
             {
                 val openUDID = reply.readString()
                 if (openUDID != null) { //if valid OpenUDID, save it
-                    Log.e(TAG, "Received $openUDID")
+                    //Log.e(TAG, "Received $openUDID")
                     if (mReceivedOpenUDIDs.containsKey(openUDID)) mReceivedOpenUDIDs[openUDID] = mReceivedOpenUDIDs[openUDID]!! + 1 else mReceivedOpenUDIDs[openUDID] = 1
                 }
             }
             data.recycle()
         } catch (e: RemoteException) {
-            Log.e(TAG, "RemoteException: " + e.message)
+            //Log.e(TAG, "RemoteException: " + e.message)
         }
         mContext.unbindService(this)
         startService() //Try the next one
@@ -56,7 +55,7 @@ class OpenUuidManager private constructor(context: Context) : ServiceConnection 
      * Generate a new OpenUDID
      */
     private fun generateOpenUDID() {
-        Log.e(TAG, "Generating openUDID")
+        //Log.e(TAG, "Generating openUDID")
 //        //Try to get the ANDROID_ID
 //        OpenUDID = Secure.getString(mContext.contentResolver, Secure.ANDROID_ID)
 //        if (OpenUDID == null || OpenUDID == "9774d56d682e549c" || OpenUDID!!.length < 15) {
@@ -71,7 +70,7 @@ class OpenUuidManager private constructor(context: Context) : ServiceConnection 
      */
     private fun startService() {
         if (mMatchingIntents?.isNotEmpty() == true) { //There are some Intents untested
-            Log.e(TAG, "Trying service " + mMatchingIntents!![0].loadLabel(mContext.packageManager))
+            //Log.e(TAG, "Trying service " + mMatchingIntents!![0].loadLabel(mContext.packageManager))
             val servInfo = mMatchingIntents?.get(0)?.serviceInfo
             val i = Intent()
             i.component = servInfo?.applicationInfo?.packageName?.let { ComponentName(it, servInfo.name) }
@@ -85,7 +84,7 @@ class OpenUuidManager private constructor(context: Context) : ServiceConnection 
             calcOpenUDID() //Choose the most frequent
             if (OpenUDID == null) //No OpenUDID was chosen, generate one
                 generateOpenUDID()
-            Log.e(TAG, "OpenUDID: $OpenUDID")
+            //Log.e(TAG, "OpenUDID: $OpenUDID")
             storeOpenUDID() //Store it locally
             isInitialized = true
         }
@@ -157,11 +156,11 @@ class OpenUuidManager private constructor(context: Context) : ServiceConnection 
             {
                 //Get the list of all OpenUDID services available (including itself)
                 manager.mMatchingIntents = context.packageManager.queryIntentServices(Intent("org.OpenUDID.GETUDID"), 0)
-                Log.e(TAG, manager.mMatchingIntents?.size.toString() + " services matches OpenUDID")
+                //Log.e(TAG, manager.mMatchingIntents?.size.toString() + " services matches OpenUDID")
                 if (manager.mMatchingIntents != null) //Start services one by one
                     manager.startService()
             } else { //Got it, you can now call getOpenUDID()
-                Log.e(TAG, "OpenUDID: $OpenUDID")
+                //Log.e(TAG, "OpenUDID: $OpenUDID")
                 isInitialized = true
             }
         }
